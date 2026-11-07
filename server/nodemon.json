@@ -1,0 +1,15 @@
+{
+  "watch": ["src/"],
+  "ext": "js,json",
+  "ignore": [
+    "*.sqlite*",
+    "*.sqlite-wal",
+    "*.sqlite-shm",
+    "backups/**",
+    "*.test.js",
+    "test-*.mjs",
+    "audit-*.mjs",
+    "verify-*.mjs"
+  ]
+}
+

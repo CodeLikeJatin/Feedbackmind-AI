@@ -1,11 +1,11 @@
 # FeedbackMind AI — User Feedback Synthesizer
 
-[![Node.js Version](https://img.shields.io/badge/node-%3E%3D20.0.0-brightgreen.svg)](https://nodejs.org/)
+[![Node.js Version](https://img.shields.io/badge/node-%3E%3D22.5.0-brightgreen.svg)](https://nodejs.org/)
 [![React Version](https://img.shields.io/badge/react-19.0.0-blue.svg)](https://react.dev/)
 [![AI Engine](https://img.shields.io/badge/AI-Groq%20Llama%203.3-orange.svg)](https://groq.com/)
 [![Memory Engine](https://img.shields.io/badge/Memory-Hindsight%20Cloud-purple.svg)](https://hindsight.vectorize.io/)
 [![Database](https://img.shields.io/badge/database-native%20node%3Asqlite-lightgrey.svg)](https://nodejs.org/api/sqlite.html)
-[![Tests](https://img.shields.io/badge/tests-141%20passing-success.svg)](./TEST_REPORT.md)
+[![Tests](https://img.shields.io/badge/tests-176%20passing-success.svg)](./docs/TEST_REPORT.md)
 
 > **Your customers speak. Your AI remembers. Your product improves.**  
 > FeedbackMind AI turns scattered customer feedback into persistent, evidence-backed product intelligence using high-speed Groq inference and true long-term episodic memory powered by Hindsight Cloud.
@@ -18,21 +18,22 @@
 3. [The FeedbackMind AI Solution](#the-feedbackmind-ai-solution)
 4. [Key Features](#key-features)
 5. [System Architecture](#system-architecture)
-6. [Hindsight Memory Architecture](#hindsight-memory-architecture)
-7. [Learning Curve Progression (Checkpoints 1, 5, 20)](#learning-curve-progression)
-8. [Technology Stack](#technology-stack)
-9. [Prerequisites & System Requirements](#prerequisites--system-requirements)
-10. [Local Development Setup](#local-development-setup)
-11. [Environment Variables Reference](#environment-variables-reference)
-12. [Automated Testing Suite (141 Tests)](#automated-testing-suite)
-13. [Security & Production Hardening](#security--production-hardening)
-14. [Deployment Architecture](#deployment-architecture)
-15. [API Reference Summary](#api-reference-summary)
-16. [Demonstration Datasets & Scenarios](#demonstration-datasets--scenarios)
-17. [Verification & Audit Trail](#verification--audit-trail)
-18. [Documentation Directory](#documentation-directory)
-19. [License](#license)
-20. [Author & Acknowledgements](#author--acknowledgements)
+6. [Project Directory Structure](#project-directory-structure)
+7. [Hindsight Memory Architecture](#hindsight-memory-architecture)
+8. [Learning Curve Progression (Checkpoints 1, 5, 20)](#learning-curve-progression)
+9. [Technology Stack](#technology-stack)
+10. [Prerequisites & System Requirements](#prerequisites--system-requirements)
+11. [Local Development Setup](#local-development-setup)
+12. [Environment Variables Reference](#environment-variables-reference)
+13. [Automated Testing Suite (176 Tests)](#automated-testing-suite)
+14. [Security & Production Hardening](#security--production-hardening)
+15. [Deployment Architecture](#deployment-architecture)
+16. [API Reference Summary](#api-reference-summary)
+17. [Demonstration Datasets & Scenarios](#demonstration-datasets--scenarios)
+18. [Verification & Audit Trail](#verification--audit-trail)
+19. [Documentation Directory](#documentation-directory)
+20. [License](#license)
+21. [Author & Acknowledgements](#author--acknowledgements)
 
 ---
 
@@ -74,6 +75,7 @@ Stateless LLM chatbots analyze one prompt at a time, forgetting customer sentime
 - High-throughput CSV parsing with streaming validation.
 - Row-level validation for missing dates, malformed IDs, and out-of-bounds ratings.
 - Automatic deduplication against SQLite database state.
+- **Public Demo Session Isolation:** Uploaded demo files process in isolated ephemeral session workspaces without altering shared synthetic baselines.
 
 ### 3. AI Feedback Intelligence
 - Powered by Groq `llama-3.3-70b-versatile` with automatic fallback to `llama-3.1-8b-instant`.
@@ -119,6 +121,59 @@ flowchart TD
 
 ---
 
+## Project Directory Structure
+
+```text
+Feedbackmind-AI/
+├── backend/                  # Express REST API, SQLite persistence, Groq & Hindsight services
+│   ├── src/
+│   │   ├── config/           # Database & environment configurations
+│   │   ├── middleware/       # Rate limiting, security headers, demo session isolation
+│   │   ├── routes/           # REST endpoints (feedback, analysis, memory, chat, demo)
+│   │   ├── services/         # Core business logic (Groq, Hindsight, trends, sessions)
+│   │   ├── utils/            # Synthetic fixtures & demo datasets
+│   │   └── server.js         # HTTP server entry point & reverse-proxy trust
+│   ├── package.json          # Backend dependencies (Express, @vectorize-io/hindsight-client, groq-sdk)
+│   ├── package-lock.json
+│   └── .env.example          # Backend environment template
+├── frontend/                 # React 19 single-page application
+│   ├── src/
+│   │   ├── components/       # UI sections (Overview, Memory, Chat, Trends, Demo)
+│   │   ├── context/          # Global theme context (Dark/Light mode)
+│   │   ├── services/         # Unified Axios/Fetch API client
+│   │   ├── App.jsx           # Main application routing & view switcher
+│   │   └── main.jsx          # React DOM entry point
+│   ├── public/               # Static public assets (vite.svg favicon)
+│   ├── index.html            # HTML document shell with theme initialization
+│   ├── package.json          # Frontend dependencies (React 19, Lucide, Recharts, Tailwind)
+│   ├── package-lock.json
+│   ├── vercel.json           # Vercel SPA routing configuration
+│   └── .env.example          # Frontend environment template
+├── docs/                     # Authoritative engineering documentation
+│   ├── reports/              # Phase audit & verification reports
+│   │   ├── PHASE_10_1_DEPLOYMENT_AUDIT.md
+│   │   ├── PHASE_10_2_SECURITY_IMPLEMENTATION_REPORT.md
+│   │   ├── PHASE_10_2_1_FINAL_SECURITY_VERIFICATION.md
+│   │   ├── PHASE_10_2_2_ISOLATION_REPORT.md
+│   │   └── PHASE_10_3_REPOSITORY_ORGANIZATION_REPORT.md
+│   ├── DEPLOYMENT_GUIDE.md   # Production hosting guide (Render, Vercel, Docker)
+│   ├── DEPLOYMENT_CHECKLIST.md # Pre-flight & post-deployment checklist
+│   ├── SECURITY_AUDIT.md     # OWASP vulnerability analysis & protection controls
+│   ├── PRODUCTION_ENVIRONMENT.md # Runtime & infrastructure specs
+│   ├── PROJECT_STATUS.md     # Engineering phase history & milestones
+│   ├── TEST_REPORT.md        # Complete 176-test automated verification report
+│   └── ...                   # Video scripts, storytelling articles & checklists
+├── screenshots/              # UI screenshots for documentation & submission
+├── .github/
+│   └── workflows/
+│       └── ci.yml            # Multi-version CI workflow (Node 22.x, Node 24.x)
+├── .gitignore                # Production ignore rules (excluding .env, sqlite, secrets)
+├── README.md                 # Primary project documentation
+└── start.sh                  # One-click startup script with signal trap & version checks
+```
+
+---
+
 ## Hindsight Memory Architecture
 
 FeedbackMind AI utilizes `@vectorize-io/hindsight-client` with strict tenant isolation:
@@ -149,7 +204,7 @@ FeedbackMind AI utilizes `@vectorize-io/hindsight-client` with strict tenant iso
   - Lucide React (`0.475.0`)
   - Recharts (`2.15.1`)
 - **Backend:**
-  - Node.js 20+ (tested on Node 22 and Node 24)
+  - Node.js 22 LTS or higher (tested on Node 22.5.0+ and Node 24)
   - Express (`4.21.2`)
   - Native SQLite driver (`node:sqlite` via `DatabaseSync`)
   - Multer (`1.4.5-lts.1`)
@@ -166,7 +221,7 @@ FeedbackMind AI utilizes `@vectorize-io/hindsight-client` with strict tenant iso
 
 ## Prerequisites & System Requirements
 
-- **Node.js:** `v20.0.0` or higher (Node `v22` LTS recommended; Node `v24.21.0` verified).
+- **Node.js:** `v22.5.0` or higher (required for native `node:sqlite` `DatabaseSync`; Node 22 LTS or Node 24 recommended).
 - **Package Manager:** `npm` v10+.
 - **Groq API Key:** Sign up at [console.groq.com](https://console.groq.com/keys).
 - **Hindsight Cloud API Key:** Obtain from [hindsight.vectorize.io](https://docs.hindsight.vectorize.io/).
@@ -176,39 +231,54 @@ FeedbackMind AI utilizes `@vectorize-io/hindsight-client` with strict tenant iso
 
 ## Local Development Setup
 
-### 1. Clone the Repository
+### Method A: One-Click Startup (Recommended)
+
+FeedbackMind AI provides an automated, cross-platform startup script that verifies dependencies, configures environment defaults, and launches both services with clean signal termination:
+
 ```bash
-git clone https://github.com/CodeLikeJatin/feedbackmind-ai.git
-cd feedbackmind-ai
+git clone https://github.com/CodeLikeJatin/Feedbackmind-AI.git
+cd Feedbackmind-AI
+./start.sh
 ```
 
-### 2. Configure Environment Variables
+### Method B: Manual Step-by-Step Setup
+
+#### 1. Clone the Repository
+```bash
+git clone https://github.com/CodeLikeJatin/Feedbackmind-AI.git
+cd Feedbackmind-AI
+```
+
+#### 2. Configure Backend Environment
 Create your backend `.env` file from the provided template:
 ```bash
-cp server/.env.example server/.env
+cp backend/.env.example backend/.env
 ```
-Open `server/.env` and insert your credentials:
+Open `backend/.env` and insert your credentials:
 ```env
 PORT=5001
 NODE_ENV=development
 GROQ_API_KEY=gsk_your_groq_api_key_here
-# Tested runtime models: openai/gpt-oss-120b, openai/gpt-oss-20b, or llama-3.3-70b-versatile
-GROQ_MODEL=openai/gpt-oss-120b
+GROQ_MODEL=llama-3.3-70b-versatile
 HINDSIGHT_API_KEY=your_hindsight_api_key_here
 HINDSIGHT_BANK_ID=feedbackmind-demo
 DATABASE_PATH=./feedbackmind.sqlite
 ```
 
-### 3. Install All Dependencies
+#### 3. Install All Dependencies
 ```bash
 npm run install:all
 ```
-*(Installs root, client, and server dependencies concurrently).*
+*(Installs root, backend, and frontend dependencies concurrently).*
 
-### 4. Start Local Development Servers
+#### 4. Start Local Development Servers
 ```bash
 npm run dev
 ```
+Alternatively, run either service individually:
+- `npm run backend` (Express API on port 5001)
+- `npm run frontend` (Vite UI on port 5173)
+
 - **Frontend Web UI:** [http://localhost:5173](http://localhost:5173)
 - **Backend REST API:** [http://localhost:5001](http://localhost:5001)
 - **Backend Health Check:** [http://localhost:5001/api/health](http://localhost:5001/api/health)
@@ -224,7 +294,7 @@ npm run dev
 | `ALLOWED_ORIGINS` | Optional | `http://localhost:5173,...` | Comma-delimited list of allowed CORS origins. |
 | `ADMIN_API_KEY` | Optional | `""` | Secret token required to invoke destructive endpoints in production. |
 | `GROQ_API_KEY` | **Required** | `""` | Groq Cloud API key for LLM inference. |
-| `GROQ_MODEL` | Optional | `openai/gpt-oss-120b` (or `llama-3.3-70b-versatile`) | Primary Groq model ID. Supported models: `openai/gpt-oss-120b`, `openai/gpt-oss-20b`, `llama-3.3-70b-versatile`. |
+| `GROQ_MODEL` | Optional | `llama-3.3-70b-versatile` | Primary Groq model ID (`llama-3.3-70b-versatile` or `llama-3.1-8b-instant`). |
 | `HINDSIGHT_API_KEY` | **Required** | `""` | Hindsight Cloud API key for episodic memory. |
 | `HINDSIGHT_BANK_ID` | Optional | `feedbackmind-demo` | Default memory bank identifier. |
 | `HINDSIGHT_BASE_URL` | Optional | `https://api.hindsight.vectorize.io` | Hindsight API gateway URL. |
@@ -233,23 +303,27 @@ npm run dev
 
 ---
 
-## Automated Testing Suite
+## Automated Testing Suite (176 Tests)
 
-The project includes an automated test suite with **141 automated tests** covering both frontend React components and backend Express services.
+The project includes an automated test suite with **176 automated tests** across 21 test suites covering both frontend React components and backend Express services.
 
-*(Note: These 141 tests represent internal project automated test results executed using Vitest and Supertest; they do not constitute third-party external security or quality certification).*
+*(Note: These 176 tests represent internal project automated test results executed using Vitest and Supertest; they do not constitute third-party external security or quality certification).*
 
-### Running Client Tests (70 Tests)
+### Running Frontend Tests (70 Tests)
 ```bash
-npm test --prefix client -- --run
+npm test --prefix frontend
+# or using root alias:
+npm run test:frontend
 ```
 *Tests App navigation, Theme switching, CSV ingestion UI, AI Analysis view, Hindsight Memory Centre, Chat interface, Trends, and Side-by-Side Judging Demo.*
 
-### Running Server Tests (71 Tests)
+### Running Backend Tests (106 Tests)
 ```bash
-npm test --prefix server
+npm test --prefix backend
+# or using root alias:
+npm run test:backend
 ```
-*Tests Health check, CSV upload pipeline, Groq analysis, Hindsight memory bank integration, Chat service, Trends detection, Memory ON/OFF judging engine, Learning Curve isolation, and Security middleware.*
+*Tests Health check, CSV upload pipeline, Groq analysis, Hindsight memory bank integration, Chat service, Trends detection, Memory ON/OFF judging engine, Learning Curve isolation, and Session Isolation.*
 
 ### Running the Complete Suite
 ```bash
@@ -260,22 +334,16 @@ npm test
 
 ## Security & Production Hardening
 
-> [!WARNING]
-> ### Security & Deployment Boundary
-> - **Server-side user authentication is NOT implemented:** The API does not verify user identity via login, JWT, or sessions.
-> - **Workspace-level authorization / RBAC is NOT implemented:** A caller may potentially access another workspace by supplying its `companyId`.
-> - **Public Deployment Status:** The application is currently suitable **ONLY** for local evaluation, controlled demonstrations, and restricted internal use.
-> - **It is NOT ready for unprotected public multi-tenant SaaS deployment.**
-> - User authentication and workspace ownership verification must be implemented before exposing this application to the public internet.
-
 FeedbackMind AI implements defence-in-depth protection:
 
 1. **Security Headers Middleware:** Automatically applies `X-Content-Type-Options: nosniff`, `X-Frame-Options: DENY`, `X-XSS-Protection: 1; mode=block`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`, and HSTS in production.
-2. **Workspace ID Input Validation:** Restricts company/workspace identifiers to strict regex (`^[a-zA-Z0-9_-]{2,64}$`), rejecting directory traversal (`../`), null-byte injection, and XSS patterns.
-3. **Sliding-Window Rate Limiting:** Zero-dependency in-memory sliding window limiter protecting AI inference (30 req/min), CSV uploads (10 req/min), memory operations (40 req/min), and general APIs (120 req/min).
-4. **Destructive Guard Middleware:** Protects database seed and clear endpoints. In production, clearing the demonstration workspace requires `X-Admin-Key` authorization.
-5. **Sanitized Telemetry:** In `NODE_ENV=production`, `/api/health` suppresses internal AI model IDs, API keys, and raw bank names.
-6. **Graceful Process Shutdown:** Handles `SIGTERM` and `SIGINT` signals to flush SQLite WAL buffers and terminate HTTP listeners without data corruption.
+2. **Reverse Proxy Trust:** Configured `app.set('trust proxy', 1)` to safely handle single-hop reverse proxies (e.g. Render, Cloudflare) while extracting the genuine client IP for rate limiting.
+3. **Strict Workspace ID Whitelisting:** Rejects unauthorized workspace identifiers, allowing only authorized synthetic workspaces (`demo-company`, `learning-curve-demo`, `acme-corp`, `fintech-app`, `healthtech-hub`) or isolated session tokens.
+4. **Public Demo Session Isolation:** Public visitors who upload CSVs or interact with chat are assigned cryptographically random sessions (`demo-session-*`) with 2-hour TTLs, strictly isolating their records and protecting shared synthetic demo datasets.
+5. **Sliding-Window Rate Limiting:** Zero-dependency in-memory sliding window limiter protecting AI inference (30 req/min), CSV uploads (10 req/min), memory operations (40 req/min), and general APIs (120 req/min).
+6. **Destructive Guard Middleware:** Protects database seed and clear endpoints. In production, clearing the demonstration workspace requires `X-Admin-Key` authorization.
+7. **Sanitized Telemetry:** In `NODE_ENV=production`, `/api/health` suppresses internal AI model IDs, API keys, and raw bank names.
+8. **Graceful Process Shutdown:** Handles `SIGTERM` and `SIGINT` signals to flush SQLite WAL buffers and terminate HTTP listeners without data corruption.
 
 ---
 
@@ -285,11 +353,11 @@ FeedbackMind AI implements defence-in-depth protection:
 > FeedbackMind AI uses native Node.js SQLite (`node:sqlite`). SQLite requires a **persistent block volume**. It must NOT be deployed to ephemeral serverless platforms (e.g. standard AWS Lambda, Vercel Serverless Functions) where filesystem writes vanish between cold starts.
 
 ### Recommended Production Targets
-1. **Render.com / Railway / Fly.io:** Single container service with an attached persistent volume mounted at `/data` (`DATABASE_PATH=/data/feedbackmind.sqlite`).
-2. **Docker / VPS (Ubuntu LTS):** Standard Docker container with a host volume mount (`-v /var/data/feedbackmind:/app/data`).
-3. **AWS ECS / DigitalOcean App Platform:** Containerized service with persistent EFS or Block Storage volume.
+1. **Backend:** Render.com Web Service (Root Directory: `backend`) with an attached persistent volume mounted at `/data` (`DATABASE_PATH=/data/feedbackmind.sqlite`).
+2. **Frontend:** Vercel (Root Directory: `frontend`) with Vite preset and `VITE_API_BASE_URL` pointing to the Render backend.
+3. **Docker / VPS (Ubuntu LTS):** Standard Docker container with a host volume mount (`-v /var/data/feedbackmind:/data`).
 
-For comprehensive deployment instructions, SSL setup, and backup automation, consult [DEPLOYMENT_GUIDE.md](./DEPLOYMENT_GUIDE.md).
+For comprehensive deployment instructions, SSL setup, and backup automation, consult [DEPLOYMENT_GUIDE.md](./docs/DEPLOYMENT_GUIDE.md).
 
 ---
 
@@ -300,7 +368,7 @@ For comprehensive deployment instructions, SSL setup, and backup automation, con
 | `GET` | `/api/health` | Service health status and database connectivity check. |
 | `GET` | `/api/dashboard/stats` | Aggregated metrics, sentiment breakdown, and ratings. |
 | `GET` | `/api/feedback` | Paginated feedback list with search, sentiment, and topic filters. |
-| `POST` | `/api/feedback/upload` | Multipart CSV upload or direct JSON ingestion. |
+| `POST` | `/api/feedback/upload` | Multipart CSV upload with session isolation. |
 | `POST` | `/api/feedback/seed` | Seed realistic customer feedback (protected). |
 | `DELETE` | `/api/feedback/clear` | Clear workspace feedback records (protected). |
 | `POST` | `/api/analysis/batch` | Batch trigger Groq AI sentiment and topic classification. |
@@ -308,10 +376,13 @@ For comprehensive deployment instructions, SSL setup, and backup automation, con
 | `POST` | `/api/memory/retain-batch` | Retain analyzed feedback records into Hindsight Cloud. |
 | `POST` | `/api/memory/recall` | Semantic episodic memory recall for a given query. |
 | `POST` | `/api/chat/ask` | Natural language question answering with optional memory toggle. |
+| `GET` | `/api/chat/history` | Retrieve session chat history (ownership protected). |
+| `DELETE` | `/api/chat/history` | Clear session chat history (ownership protected). |
 | `GET` | `/api/trends/overview` | Multi-month sentiment trajectory and friction clusters. |
 | `POST` | `/api/demo/compare` | Execute side-by-side Memory OFF vs Memory ON comparison. |
 | `GET` | `/api/learning-curve/status` | Learning curve demonstration environment metadata. |
 | `GET` | `/api/learning-curve/checkpoints` | Checkpoints 1, 5, and 20 synthesized progression. |
+| `POST` | `/api/session/init` | Initialize an isolated demo session for public evaluation. |
 
 ---
 
@@ -320,6 +391,7 @@ For comprehensive deployment instructions, SSL setup, and backup automation, con
 The repository includes curated demonstration data for evaluation:
 - **`demo-company` (27 Feedback Records):** SaaS analytics platform customer feedback covering dashboard latency regressions, Okta SAML requests, CSV export encoding bugs, and mobile responsiveness issues across 3 major product releases.
 - **`learning-curve-demo` (20 Feedback Records):** Chronologically sequenced customer interactions tracking a specific latency regression from initial 16-second bottleneck to 1.8-second resolution.
+- **`learning_curve_checkpoints` (3 Rows):** Pre-computed synthesized progression milestones for Checkpoints 1, 5, and 20.
 
 *(Note: All customer feedback records, customer identifiers, quotes, and learning-curve progression items across both workspaces are synthetic demonstration test fixtures created for empirical evaluation and benchmarking).*
 
@@ -332,7 +404,9 @@ FeedbackMind AI was engineered under an inspection and verification protocol:
 - **Phase 8.4 & 8.4.1:** Learning curve demonstration verified with isolated memory banks and 100% genuine Hindsight Cloud recall counts.
 - **Phase 8.5 & 8.5.1:** Technical storytelling and publication claims audited against database records.
 - **Phase 8.6 & 8.6.1:** Video recording script and UI synchronicity verified.
-- **Phase 9:** GitHub repository staging, rate limiting, security headers, production build verification, and deployment documentation.
+- **Phase 9.1–9.3:** Destructive script protection, CI pipeline fixes, and initial release commit.
+- **Phase 10.1–10.2.2:** Public demo readiness audit, reverse proxy hardening, demo session isolation, and data protection.
+- **Phase 10.3:** GitHub repository reorganization into clean `backend/`, `frontend/`, `docs/`, `screenshots/`, and `start.sh` architecture.
 
 ---
 
@@ -340,15 +414,25 @@ FeedbackMind AI was engineered under an inspection and verification protocol:
 
 | Document | Purpose |
 |---|---|
-| [`DEPLOYMENT_GUIDE.md`](./DEPLOYMENT_GUIDE.md) | Step-by-step production hosting, persistent disk setup, and zero-downtime backups. |
-| [`PRODUCTION_ENVIRONMENT.md`](./PRODUCTION_ENVIRONMENT.md) | Runtime configurations, port bindings, and hardware sizing. |
-| [`SECURITY_AUDIT.md`](./SECURITY_AUDIT.md) | Comprehensive vulnerability audit, rate limiting, and input sanitization report. |
-| [`DEPLOYMENT_CHECKLIST.md`](./DEPLOYMENT_CHECKLIST.md) | Pre-flight and post-deployment verification checklist. |
-| [`GITHUB_SETUP.md`](./GITHUB_SETUP.md) | Repository configuration for `CodeLikeJatin/feedbackmind-ai`. |
-| [`ARTICLE_DRAFT.md`](./ARTICLE_DRAFT.md) | Technical publication article on long-term memory in AI. |
-| [`VIDEO_SCRIPT.md`](./VIDEO_SCRIPT.md) | Synchronized video demonstration recording script. |
-| [`TEST_REPORT.md`](./TEST_REPORT.md) | Complete 141-test automated verification report. |
-| [`PROJECT_STATUS.md`](./PROJECT_STATUS.md) | Full architectural status and phase history. |
+| [`DEPLOYMENT_GUIDE.md`](./docs/DEPLOYMENT_GUIDE.md) | Step-by-step production hosting, persistent disk setup, and zero-downtime backups. |
+| [`PRODUCTION_ENVIRONMENT.md`](./docs/PRODUCTION_ENVIRONMENT.md) | Runtime configurations, port bindings, and hardware sizing. |
+| [`SECURITY_AUDIT.md`](./docs/SECURITY_AUDIT.md) | Comprehensive vulnerability audit, rate limiting, and input sanitization report. |
+| [`DEPLOYMENT_CHECKLIST.md`](./docs/DEPLOYMENT_CHECKLIST.md) | Pre-flight and post-deployment verification checklist. |
+| [`GITHUB_SETUP.md`](./docs/GITHUB_SETUP.md) | Repository configuration for `CodeLikeJatin/Feedbackmind-AI`. |
+| [`ARTICLE_DRAFT.md`](./docs/ARTICLE_DRAFT.md) | Technical publication article on long-term memory in AI. |
+| [`VIDEO_SCRIPT.md`](./docs/VIDEO_SCRIPT.md) | Synchronized video demonstration recording script. |
+| [`TEST_REPORT.md`](./docs/TEST_REPORT.md) | Complete 176-test automated verification report. |
+| [`PROJECT_STATUS.md`](./docs/PROJECT_STATUS.md) | Full architectural status and phase history. |
+| [`HINDSIGHT_ARCHITECTURE_AND_DEMO.md`](./docs/HINDSIGHT_ARCHITECTURE_AND_DEMO.md) | Hindsight Cloud episodic memory bank design and verification. |
+| [`HINDSIGHT_LEARNING_CURVE.md`](./docs/HINDSIGHT_LEARNING_CURVE.md) | Learning curve scenario design, interaction sequence, and metrics. |
+| [`HACKATHON_SUBMISSION_CHECKLIST.md`](./docs/HACKATHON_SUBMISSION_CHECKLIST.md) | Final hackathon judging compliance and artifact checklist. |
+
+### Audit & Security Reports
+- [`PHASE_10_1_DEPLOYMENT_AUDIT.md`](./docs/reports/PHASE_10_1_DEPLOYMENT_AUDIT.md)
+- [`PHASE_10_2_SECURITY_IMPLEMENTATION_REPORT.md`](./docs/reports/PHASE_10_2_SECURITY_IMPLEMENTATION_REPORT.md)
+- [`PHASE_10_2_1_FINAL_SECURITY_VERIFICATION.md`](./docs/reports/PHASE_10_2_1_FINAL_SECURITY_VERIFICATION.md)
+- [`PHASE_10_2_2_ISOLATION_REPORT.md`](./docs/reports/PHASE_10_2_2_ISOLATION_REPORT.md)
+- [`PHASE_10_3_REPOSITORY_ORGANIZATION_REPORT.md`](./docs/reports/PHASE_10_3_REPOSITORY_ORGANIZATION_REPORT.md)
 
 ---
 

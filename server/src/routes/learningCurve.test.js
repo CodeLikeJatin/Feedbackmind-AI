@@ -1,9 +1,13 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeAll } from 'vitest';
 import request from 'supertest';
 import app from '../server.js';
 import { getDatabase } from '../config/db.js';
+import { ensureDemoCompanyFixture } from '../utils/demoCompanyFixture.js';
 
 describe('Phase 8.4 — Learning Curve API & Isolation Suite', () => {
+  beforeAll(() => {
+    ensureDemoCompanyFixture();
+  });
   it('GET /api/learning-curve/status returns isolated environment metadata', async () => {
     const res = await request(app).get('/api/learning-curve/status');
     expect(res.status).toBe(200);

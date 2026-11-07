@@ -192,7 +192,8 @@ Open `server/.env` and insert your credentials:
 PORT=5001
 NODE_ENV=development
 GROQ_API_KEY=gsk_your_groq_api_key_here
-GROQ_MODEL=llama-3.3-70b-versatile
+# Tested runtime models: openai/gpt-oss-120b, openai/gpt-oss-20b, or llama-3.3-70b-versatile
+GROQ_MODEL=openai/gpt-oss-120b
 HINDSIGHT_API_KEY=your_hindsight_api_key_here
 HINDSIGHT_BANK_ID=feedbackmind-demo
 DATABASE_PATH=./feedbackmind.sqlite
@@ -223,7 +224,7 @@ npm run dev
 | `ALLOWED_ORIGINS` | Optional | `http://localhost:5173,...` | Comma-delimited list of allowed CORS origins. |
 | `ADMIN_API_KEY` | Optional | `""` | Secret token required to invoke destructive endpoints in production. |
 | `GROQ_API_KEY` | **Required** | `""` | Groq Cloud API key for LLM inference. |
-| `GROQ_MODEL` | Optional | `llama-3.3-70b-versatile` | Primary Groq model ID. |
+| `GROQ_MODEL` | Optional | `openai/gpt-oss-120b` (or `llama-3.3-70b-versatile`) | Primary Groq model ID. Supported models: `openai/gpt-oss-120b`, `openai/gpt-oss-20b`, `llama-3.3-70b-versatile`. |
 | `HINDSIGHT_API_KEY` | **Required** | `""` | Hindsight Cloud API key for episodic memory. |
 | `HINDSIGHT_BANK_ID` | Optional | `feedbackmind-demo` | Default memory bank identifier. |
 | `HINDSIGHT_BASE_URL` | Optional | `https://api.hindsight.vectorize.io` | Hindsight API gateway URL. |

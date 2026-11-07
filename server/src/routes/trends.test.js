@@ -1,12 +1,17 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, beforeAll } from 'vitest';
 import request from 'supertest';
 import app from '../server.js';
 import { trendService } from '../services/trendService.js';
 import { hindsightService } from '../services/hindsightService.js';
 import { getDatabase } from '../config/db.js';
+import { ensureDemoCompanyFixture } from '../utils/demoCompanyFixture.js';
 
 describe('Phase 6 — Trend Detection and Product Recommendations Test Suite', () => {
   const TEST_COMPANY = 'trends-test-org';
+
+  beforeAll(() => {
+    ensureDemoCompanyFixture();
+  });
 
   function insertTestRecords(records) {
     const db = getDatabase();
@@ -267,6 +272,7 @@ describe('Phase 6 — Trend Detection and Product Recommendations Test Suite', (
 
   // Test 8: Live demo company records evaluation
   it('runs against actual demo-company dataset and returns valid trend indicators and prioritized recommendations', async () => {
+    ensureDemoCompanyFixture();
     const res = await request(app)
       .get('/api/trends/overview?companyId=demo-company&memoryEnabled=false');
 

@@ -12,6 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
+      fail-fast: false
       matrix:
         # Requires Node 22.5.0+ for native node:sqlite (DatabaseSync)
         node-version: [22.x, 24.x]
